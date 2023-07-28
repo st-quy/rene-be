@@ -24,9 +24,9 @@ import { ProductsModule } from './modules/products/products.module';
       inject: [ConfigService],
      
     }),
-    DetailsModule,
     CartModule,
     ProductsModule,
+    DetailsModule
   ],
   controllers: [],
   providers: [],
