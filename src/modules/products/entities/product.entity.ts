@@ -1,29 +1,19 @@
 
-import { Column,OneToOne, Entity, PrimaryGeneratedColumn,JoinColumn,ManyToMany,JoinTable } from "typeorm";
-import { DetailEntity } from "../../details/entities/detail.entity";
-import { CartEntity } from "../../cart/entities/cart.entity";
+import { Column,OneToOne, Entity, PrimaryGeneratedColumn,JoinColumn,ManyToMany,JoinTable, ManyToOne } from "typeorm";
+import { Detail } from "../../details/entities/detail.entity";
 @Entity('product')
-export class ProductEntity {
+export class Product {
     @PrimaryGeneratedColumn()
     id: number;
-
-    @Column()
-    detail : string;
 
     @Column()
     quantity_sold: number;
 
     @Column()
-    quantity_invetory: number;
+    quantity_inventory: number;
 
-    @Column()
-    created_at: Date;
-   
-    @OneToOne(() => DetailEntity, { cascade: true })
+    @OneToOne(() => Detail, { cascade: true, eager: true }) // This will cascade operations to the associated detail and eager load it
     @JoinColumn()
-    detail_pro_det: DetailEntity;
+    detail: Detail;
 
-    @ManyToMany(()  => CartEntity, { cascade: true })
-    @JoinTable()
-    cards: CartEntity[];
 }

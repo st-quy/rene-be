@@ -1,18 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { Product } from "@app/modules/products/entities";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
 @Entity('cart')
-export class  CartEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+export class  Cart {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    product: string;
+  @Column()
+  total_price: number;
 
-    @Column()
-    total_price: number;
+  @Column()
+  quantity: number;
 
-    @Column()
-    quantity: number;
+  @ManyToMany(() => Product)
+  @JoinTable()
+  products: Product[];
 
-    @Column()
-    created_at: Date;
 }
