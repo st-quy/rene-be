@@ -11,15 +11,36 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  async findAll(): Promise<ProductDTO[]> {
-    const products = await this.productsService.findAll();
-    return products.map(product => ({
-      id: product.id,
-      quantity_sold: product.quantity_sold,
-      quantity_inventory: product.quantity_inventory,
-      detail: product.detail,
-    }));
+  async findAll(@Query('sortBy') sortBy: string, @Query('search') search: string): Promise<ProductDTO[]> {
+    if (search) {
+      // Nếu có tham số search, thực hiện tìm kiếm sản phẩm theo tên
+      return this.productsService.searchProductsByName(search);
+    }
+    
+    let products: ProductDTO[];
+
+    if (sortBy === 'lowtohigh') {
+      // Lọc sản phẩm từ giá thấp đến cao
+      products = await this.productsService.findProductsSortedByPrice('ASC');
+    } else if (sortBy === 'hightolow') {
+      // Lọc sản phẩm từ giá cao đến thấp
+      products = await this.productsService.findProductsSortedByPrice('DESC');
+    } else {
+      // Mặc định, không lọc, trả về tất cả sản phẩm
+      products = await this.productsService.findAll();
+    }
+
+    return products;
   }
+  // @Get('search')
+  // async searchProductsByName(@Query('keyword') keyword: string): Promise<ProductDTO[]> {
+  //   if (!keyword) {
+  //     throw new NotFoundException('Keyword must be provided');
+  //   }
+
+  //   return this.productsService.searchProductsByName(keyword);
+  // }
+
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number): Promise<ProductDTO> {
     try {

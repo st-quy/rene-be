@@ -1,10 +1,11 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Like, Repository } from 'typeorm';
 import { Product } from './entities';
 import { CreateProductDTO } from './dto/createproduct.dto';
 import { Detail } from '../details/entities';
 import { UpdateProductDTO } from './dto/updateproduct.dto';
+import { ProductDTO } from './dto/product.dto';
 
 
 @Injectable()
@@ -16,9 +17,45 @@ export class ProductsService {
     private readonly detailRepository: Repository<Detail>,
   ) {}
 
-  async findAll(): Promise<Product[]> {
-    return await this.productRepository.find({ relations: ['detail'] });
+  async findAll(): Promise<ProductDTO[]> {
+    const products = await this.productRepository.find({ relations: ['detail'] });
+    return products.map(product => this.mapToProductDTO(product));
   }
+
+  async findProductsSortedByPrice(sortOrder: 'ASC' | 'DESC'): Promise<ProductDTO[]> {
+    const queryBuilder = this.productRepository.createQueryBuilder('product');
+
+    queryBuilder
+      .innerJoinAndSelect('product.detail', 'detail')
+      .orderBy('detail.price', sortOrder);
+
+    const products = await queryBuilder.getMany();
+    return products.map(product => this.mapToProductDTO(product));
+  }
+  async searchProductsByName(keyword: string): Promise<ProductDTO[]> {
+    const products = await this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.detail', 'detail')
+      .where('detail.product_name ILIKE :keyword', { keyword: `%${keyword}%` })
+      .getMany();
+
+    if (!products || products.length === 0) {
+      throw new NotFoundException('No products found');
+    }
+
+    return products.map(product => this.mapToProductDTO(product));
+  }
+
+  private mapToProductDTO(product: Product): ProductDTO {
+    return {
+      id: product.id,
+      quantity_sold: product.quantity_sold,
+      quantity_inventory: product.quantity_inventory,
+      detail: product.detail,
+    };
+  }
+
+
   async findById(id: number): Promise<Product> {
     const product = await this.productRepository
       .createQueryBuilder('product')
@@ -43,7 +80,6 @@ export class ProductsService {
     newDetail.image = image;
     
     const savedDetail = await this.detailRepository.save(newDetail);
-
 
     const newProduct = new Product();
     newProduct.quantity_sold = 0;
