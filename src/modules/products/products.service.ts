@@ -16,7 +16,14 @@ export class ProductsService {
     @InjectRepository(Detail)
     private readonly detailRepository: Repository<Detail>,
   ) {}
-
+    private mapToProductDTO(product: Product): ProductDTO {
+      return {
+        id: product.id,
+        quantity_sold: product.quantity_sold,
+        quantity_inventory: product.quantity_inventory,
+        detail: product.detail,
+      };
+    }
   async findAll(): Promise<ProductDTO[]> {
     const products = await this.productRepository.find({ relations: ['detail'] });
     return products.map(product => this.mapToProductDTO(product));
@@ -45,17 +52,6 @@ export class ProductsService {
 
     return products.map(product => this.mapToProductDTO(product));
   }
-
-  private mapToProductDTO(product: Product): ProductDTO {
-    return {
-      id: product.id,
-      quantity_sold: product.quantity_sold,
-      quantity_inventory: product.quantity_inventory,
-      detail: product.detail,
-    };
-  }
-
-
   async findById(id: number): Promise<Product> {
     const product = await this.productRepository
       .createQueryBuilder('product')

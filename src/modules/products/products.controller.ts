@@ -19,10 +19,11 @@ export class ProductsController {
     
     let products: ProductDTO[];
 
-    if (sortBy === 'lowtohigh') {
+
+    if (sortBy === 'asc') {
       // Lọc sản phẩm từ giá thấp đến cao
       products = await this.productsService.findProductsSortedByPrice('ASC');
-    } else if (sortBy === 'hightolow') {
+    } else if (sortBy === 'desc') {
       // Lọc sản phẩm từ giá cao đến thấp
       products = await this.productsService.findProductsSortedByPrice('DESC');
     } else {
