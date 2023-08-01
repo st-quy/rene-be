@@ -19,6 +19,7 @@ export class ProductsController {
     
     let products: ProductDTO[];
 
+
     if (sortBy === 'asc') {
       // Lọc sản phẩm từ giá thấp đến cao
       products = await this.productsService.findProductsSortedByPrice('ASC');

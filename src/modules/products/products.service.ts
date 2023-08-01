@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { And, FindManyOptions, Like, Repository } from 'typeorm';
+import { FindManyOptions, Like, Repository } from 'typeorm';
 import { Product } from './entities';
 import { CreateProductDTO } from './dto/createproduct.dto';
 import { Detail } from '../details/entities';
@@ -52,8 +52,6 @@ export class ProductsService {
 
     return products.map(product => this.mapToProductDTO(product));
   }
-
-
   async findById(id: number): Promise<Product> {
     const product = await this.productRepository
       .createQueryBuilder('product')
