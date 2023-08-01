@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Like, Repository } from 'typeorm';
+import { And, FindManyOptions, Like, Repository } from 'typeorm';
 import { Product } from './entities';
 import { CreateProductDTO } from './dto/createproduct.dto';
 import { Detail } from '../details/entities';
@@ -16,7 +16,14 @@ export class ProductsService {
     @InjectRepository(Detail)
     private readonly detailRepository: Repository<Detail>,
   ) {}
-
+    private mapToProductDTO(product: Product): ProductDTO {
+      return {
+        id: product.id,
+        quantity_sold: product.quantity_sold,
+        quantity_inventory: product.quantity_inventory,
+        detail: product.detail,
+      };
+    }
   async findAll(): Promise<ProductDTO[]> {
     const products = await this.productRepository.find({ relations: ['detail'] });
     return products.map(product => this.mapToProductDTO(product));
@@ -44,15 +51,6 @@ export class ProductsService {
     }
 
     return products.map(product => this.mapToProductDTO(product));
-  }
-
-  private mapToProductDTO(product: Product): ProductDTO {
-    return {
-      id: product.id,
-      quantity_sold: product.quantity_sold,
-      quantity_inventory: product.quantity_inventory,
-      detail: product.detail,
-    };
   }
 
 
