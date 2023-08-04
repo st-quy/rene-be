@@ -1,3 +1,4 @@
+
 import { ProductEntity } from "@app/modules/products/entities";
 import { Column, Entity, PrimaryGeneratedColumn,OneToOne } from "typeorm";
 
@@ -24,4 +25,5 @@ export class DetailEntity {
    
     @OneToOne(() => ProductEntity, product => product.detail)
     product: ProductEntity;
+
 }

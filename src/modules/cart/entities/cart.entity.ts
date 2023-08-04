@@ -1,3 +1,4 @@
+
 import { ProductEntity } from "@app/modules/products/entities";
 import { Column, Entity, PrimaryGeneratedColumn, Timestamp,ManyToMany, OneToMany,JoinTable } from "typeorm";
 import { CartProductEntity } from "./cartProduct.entity";
@@ -34,3 +35,4 @@ export class CartEntity {
     cartProducts: CartProductEntity[];
 
   }
+
