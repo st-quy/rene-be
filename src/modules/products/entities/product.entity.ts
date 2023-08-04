@@ -1,29 +1,32 @@
 
-import { Column,OneToOne, Entity, PrimaryGeneratedColumn,JoinColumn,ManyToMany,JoinTable } from "typeorm";
+import { Column,OneToOne, Entity, PrimaryGeneratedColumn,JoinColumn,ManyToMany,OneToMany,JoinTable } from "typeorm";
 import { DetailEntity } from "../../details/entities/detail.entity";
 import { CartEntity } from "../../cart/entities/cart.entity";
-@Entity('product')
+import { CartProductEntity } from "@app/modules/cart/entities/cartProduct.entity";
+
+
+@Entity('products')
 export class ProductEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    detail : string;
+    quantity_sold: string;
 
     @Column()
-    quantity_sold: number;
-
-    @Column()
-    quantity_invetory: number;
+    quantity_inventory: number;
 
     @Column()
     created_at: Date;
-   
-    @OneToOne(() => DetailEntity, { cascade: true })
-    @JoinColumn()
-    detail_pro_det: DetailEntity;
 
-    @ManyToMany(()  => CartEntity, { cascade: true })
-    @JoinTable()
-    cards: CartEntity[];
+    @OneToOne(() => DetailEntity)
+    @JoinColumn()
+    detail: DetailEntity;
+
+    @ManyToMany(() => CartEntity, cart => cart.products)
+    carts: CartEntity[];
+
+      
+    @OneToMany(() => CartProductEntity, cartProduct => cartProduct.products) // Đảm bảo quan hệ đúng với tên bảng trung gian
+    cartProducts: CartProductEntity[];
 }

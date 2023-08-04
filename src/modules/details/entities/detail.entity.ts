@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ProductEntity } from "@app/modules/products/entities";
+import { Column, Entity, PrimaryGeneratedColumn,OneToOne } from "typeorm";
 
 
 @Entity('details')
@@ -17,8 +18,10 @@ export class DetailEntity {
 
     @Column()
     price: number;
-
+   
     @Column()
     image: string;
-
+   
+    @OneToOne(() => ProductEntity, product => product.detail)
+    product: ProductEntity;
 }
