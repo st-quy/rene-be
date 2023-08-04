@@ -1,3 +1,7 @@
+
+import { Controller } from '@nestjs/common';
+
+
 import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ProductDTO } from './dto/product.dto';
@@ -71,3 +75,4 @@ export class ProductsController {
     return this.productsService.deleteProduct(id);
   }
 }
+

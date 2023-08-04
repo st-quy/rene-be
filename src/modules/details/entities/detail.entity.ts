@@ -1,25 +1,29 @@
 
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ProductEntity } from "@app/modules/products/entities";
+import { Column, Entity, PrimaryGeneratedColumn,OneToOne } from "typeorm";
 
 
 @Entity('details')
-export class Detail {
+export class DetailEntity {
     @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
-  @Column()
-  product_name: string;
+    @Column()
+    product_name: string;
 
-  @Column()
-  brand: string;
+    @Column()
+    brand: string;
 
-  @Column()
-  category: string;
+    @Column()
+    category: string;
 
-  @Column()
-  price: number;
-
-  @Column()
-  image: string;
+    @Column()
+    price: number;
+   
+    @Column()
+    image: string;
+   
+    @OneToOne(() => ProductEntity, product => product.detail)
+    product: ProductEntity;
 
 }

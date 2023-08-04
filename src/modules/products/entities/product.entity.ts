@@ -1,19 +1,38 @@
 
-import { Column,OneToOne, Entity, PrimaryGeneratedColumn,JoinColumn,ManyToMany,JoinTable, ManyToOne } from "typeorm";
-import { Detail } from "../../details/entities/detail.entity";
-@Entity('product')
-export class Product {
+
+import { Column,OneToOne, Entity, PrimaryGeneratedColumn,JoinColumn,ManyToMany,OneToMany,JoinTable } from "typeorm";
+import { DetailEntity } from "../../details/entities/detail.entity";
+import { CartEntity } from "../../cart/entities/cart.entity";
+import { CartProductEntity } from "@app/modules/cart/entities/cartProduct.entity";
+
+
+@Entity('products')
+export class ProductEntity {
+
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    quantity_sold: number;
+
+    quantity_sold: string;
+
 
     @Column()
     quantity_inventory: number;
 
-    @OneToOne(() => Detail, { cascade: true, eager: true }) // This will cascade operations to the associated detail and eager load it
+
+    @Column()
+    created_at: Date;
+
+    @OneToOne(() => DetailEntity)
     @JoinColumn()
-    detail: Detail;
+    detail: DetailEntity;
+
+    @ManyToMany(() => CartEntity, cart => cart.products)
+    carts: CartEntity[];
+
+      
+    @OneToMany(() => CartProductEntity, cartProduct => cartProduct.products) // Đảm bảo quan hệ đúng với tên bảng trung gian
+    cartProducts: CartProductEntity[];
 
 }
