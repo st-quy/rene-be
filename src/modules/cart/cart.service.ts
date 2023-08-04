@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartEntity } from './entities';
 import { ProductEntity } from '../products/entities';
@@ -7,6 +6,8 @@ import { CartProductEntity } from './entities/cartProduct.entity';
 import { Repository, SimpleConsoleLogger } from 'typeorm';
 import { AddToCartDTO } from './dto/addtocart.dto';
 import { updateCartDTO } from './dto/updatetocart.dto';
+
+
 
 
 @Injectable()
@@ -250,7 +251,6 @@ export class CartService {
         return cart;
     }
 }
-
 
 
 
