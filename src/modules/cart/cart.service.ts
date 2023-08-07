@@ -9,7 +9,6 @@ import { updateCartDTO } from './dto/updatetocart.dto';
 
 
 
-
 @Injectable()
 export class CartService {
 
@@ -78,7 +77,6 @@ export class CartService {
         return formattedCarts;
 
     }
-
 
     async addToCart(addToCartDTO: AddToCartDTO): Promise<CartProductEntity[]> {
         const { cartId, productId } = addToCartDTO;

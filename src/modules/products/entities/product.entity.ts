@@ -14,7 +14,7 @@ export class ProductEntity {
 
     @Column()
 
-    quantity_sold: string;
+    quantity_sold: number;
 
 
     @Column()

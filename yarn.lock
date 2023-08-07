@@ -3887,12 +3887,16 @@ pg-cloudflare@^1.1.1:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 2e10405 ( feat: dpm-create-ShopingcartModule)
+=======
+>>>>>>> 41ca4b4d6b8e28944499c70eb39c4f5cf4027e7c
 pg-connection-string@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.6.2.tgz#713d82053de4e2bd166fab70cd4f26ad36aab475"
   integrity sha512-ch6OwaeaPYcova4kKZ15sbJ2hKb/VP48ZD2gE7i1J+L4MspCtBMAx8nMgz7bksc7IojCIIWuEhHibSMFH8m8oA==
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 =======
@@ -3903,6 +3907,9 @@ pg-connection-string@^2.6.1:
 >>>>>>> 0e3037f (create project)
 =======
 >>>>>>> 2e10405 ( feat: dpm-create-ShopingcartModule)
+=======
+
+>>>>>>> 41ca4b4d6b8e28944499c70eb39c4f5cf4027e7c
 
 pg-int8@1.0.1:
   version "1.0.1"
@@ -3932,13 +3939,18 @@ pg-types@^2.1.0:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 2e10405 ( feat: dpm-create-ShopingcartModule)
+=======
+
+>>>>>>> 41ca4b4d6b8e28944499c70eb39c4f5cf4027e7c
 pg@^8.11.2:
   version "8.11.2"
   resolved "https://registry.yarnpkg.com/pg/-/pg-8.11.2.tgz#1a23f6de7bfb65ba56e4dd15df96668d319900c4"
   integrity sha512-l4rmVeV8qTIrrPrIR3kZQqBgSN93331s9i6wiUiLOSk0Q7PmUxZD/m1rQI622l3NfqBby9Ar5PABfS/SulfieQ==
+<<<<<<< HEAD
 <<<<<<< HEAD
   dependencies:
     buffer-writer "2.0.0"
@@ -3961,6 +3973,13 @@ pg@^8.11.1:
     packet-reader "1.0.0"
     pg-connection-string "^2.6.2"
 >>>>>>> 2e10405 ( feat: dpm-create-ShopingcartModule)
+=======
+  dependencies:
+    buffer-writer "2.0.0"
+    packet-reader "1.0.0"
+    pg-connection-string "^2.6.2"
+
+>>>>>>> 41ca4b4d6b8e28944499c70eb39c4f5cf4027e7c
     pg-pool "^3.6.1"
     pg-protocol "^1.6.0"
     pg-types "^2.1.0"

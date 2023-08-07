@@ -2,22 +2,24 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Like, Repository } from 'typeorm';
-import { Product } from './entities';
+
 import { CreateProductDTO } from './dto/createproduct.dto';
-import { Detail } from '../details/entities';
+
 import { UpdateProductDTO } from './dto/updateproduct.dto';
 import { ProductDTO } from './dto/product.dto';
+import { ProductEntity } from './entities';
+import { DetailEntity } from '../details/entities';
 
-
+DetailEntity
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
-    @InjectRepository(Detail)
-    private readonly detailRepository: Repository<Detail>,
+    @InjectRepository(ProductEntity)
+    private readonly productRepository: Repository<ProductEntity>,
+    @InjectRepository(ProductEntity)
+    private readonly detailRepository: Repository<ProductEntity>,
   ) {}
-    private mapToProductDTO(product: Product): ProductDTO {
+    private mapToProductDTO(product: ProductEntity): ProductDTO {
       return {
         id: product.id,
         quantity_sold: product.quantity_sold,
@@ -53,7 +55,7 @@ export class ProductsService {
 
     return products.map(product => this.mapToProductDTO(product));
   }
-  async findById(id: number): Promise<Product> {
+  async findById(id: number): Promise<ProductEntity> {
     const product = await this.productRepository
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.detail', 'detail')
@@ -69,7 +71,7 @@ export class ProductsService {
   async createProduct(createProductDTO: CreateProductDTO) {
     const { product_name, brand, category, price, image, quantity_inventory } = createProductDTO;
 
-    const newDetail = new Detail();
+    const newDetail = new DetailEntity();
     newDetail.product_name = product_name;
     newDetail.brand = brand;
     newDetail.category = category;
@@ -78,7 +80,7 @@ export class ProductsService {
     
     const savedDetail = await this.detailRepository.save(newDetail);
 
-    const newProduct = new Product();
+    const newProduct = new ProductEntity();
     newProduct.quantity_sold = 0;
     newProduct.quantity_inventory = quantity_inventory; 
     newProduct.detail = savedDetail;
@@ -87,7 +89,7 @@ export class ProductsService {
 
   }
   
-  async updateProduct(id: number, updateProductDTO: UpdateProductDTO): Promise<Product> {
+  async updateProduct(id: number, updateProductDTO: UpdateProductDTO): Promise<ProductEntity> {
     const product = await this.productRepository.findOne({where:{id}});
     if (!product) {
       throw new NotFoundException('Product not found');
@@ -96,7 +98,7 @@ export class ProductsService {
     const { product_name, brand, category, price, image, quantity_inventory,quantity_sold } = updateProductDTO;
 
     // Fetch the related detail entity
-    const detail = product.detail || new Detail();
+    const detail = product.detail || new DetailEntity();
     detail.product_name = product_name || detail.product_name;
     detail.brand = brand || detail.brand;
     detail.category = category || detail.category;
